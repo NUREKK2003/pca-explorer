@@ -30,7 +30,7 @@ def download_to_xslt():
     file_path = 'export_file.xlsx'
 
     with pd.ExcelWriter(file_path, engine='openpyxl') as writer:
-        st.session_state.scores.to_excel(writer, sheet_name='scores', index=False)
+        st.session_state.scores.to_excel(writer, sheet_name='scores', index=True)
         st.session_state.all_loadings.to_excel(writer, sheet_name='loadings', index=True)
         if st.session_state.color_by_variable != "":
             st.session_state.copied_df[st.session_state.color_by_variable].to_excel(writer, sheet_name='vector_with_dependent_variable', index=False)
@@ -380,6 +380,7 @@ with prep_tab:
         with st.form("observations_filter_form"):
             st.write("Select filtering parameters")
 
+            def_selected_columns = df_data.columns.values.tolist()
             multiselect = st.multiselect("Select the collumns names that you want to use in PCA analyse",df_data.columns.values.tolist(),default=def_selected_columns)
 
             submitted = st.form_submit_button("Submit")
